@@ -1,102 +1,81 @@
-# World Happiness Analysis (WHR 2026)
+# World Happiness Analysis — WHR 2026
 
-Exploratory data analysis of the **World Happiness Report 2026**, using the official
-Figure 2.1 dataset (Gallup World Poll based, 168 countries, 2011–2025).
+**Surya Winaldi Yakin · Portofolio Data Analyst**
 
-## Question
+Analisis deskriptif evaluasi hidup lintas negara: distribusi skor 2023–2025, perubahan skor pada periode yang sama, sensitivitas cakupan negara, dan audit dekomposisi resmi World Happiness Report.
 
-> What socio-economic factors are associated with differences in life satisfaction
-> across countries, and how have these relationships evolved over time?
+## Pertanyaan analisis
 
-## Data
+1. Bagaimana distribusi skor 2023–2025 dan posisi Indonesia bersama interval kepercayaannya?
+2. Bagaimana skor berubah dari 2017–2019 ke 2023–2025 pada negara yang tercakup di kedua periode?
+3. Apakah ringkasan perubahan bertahan pada panel seimbang dan periode pembanding lain?
+4. Bagaimana tujuh komponen dekomposisi merekonstruksi skor terbitan WHR?
 
-- **Source:** [World Happiness Report — official data sharing page](https://worldhappiness.report/data-sharing/)
-- **File:** `WHR26_Data_Figure_2_1_Data_for_Figure_2.csv`
-- **Coverage:** 168 countries, years 2011–2025 (no 2013)
-- **Variables:** Life evaluation (3-year average), 95% confidence interval, and six
-  explanatory factors (GDP per capita, social support, healthy life expectancy,
-  freedom, generosity, perceptions of corruption), plus dystopia + residual.
+## Hasil utama
 
-Raw data lives in `data/raw/` and is never modified. Cleaned data is written to
-`data/processed/` by the notebook.
+Angka berikut mengikuti keluaran tersimpan notebook unggahan dan laporan revisi:
 
-## Project structure
+- Potret 2023–2025: 147 negara, rerata 5,650 dan median 5,937.
+- Perubahan 2017–2019 ke 2023–2025: 143 negara berpasangan; rerata +0,102 poin, dengan 90 negara naik dan 53 turun.
+- Indonesia: peringkat 87, skor 5,617, IK 95% 5,517–5,718; perubahan +0,331 poin dari 2017–2019.
+- Panel seimbang mencakup 129 negara. Ringkasan antarnegara memberi bobot yang sama pada setiap negara.
+- Pada 1.013 baris dengan komponen lengkap, selisih absolut maksimum skor terhadap jumlah tujuh komponen adalah 0,003 poin.
 
-```
-world-happiness-analysis/
-├── data/
-│   ├── raw/            # original WHR 2026 export, untouched
-│   └── processed/      # cleaned dataset produced by the notebook
-├── notebooks/
-│   └── 01_exploratory_analysis.ipynb
-├── src/                # reusable Python code (future work)
-├── visuals/             # exported charts (PNG)
-├── requirements.txt
-└── README.md
-```
+![Distribusi skor 2023–2025](visuals/01_distribution.png)
 
-## Analysis
+![Perubahan skor pada negara terpilih](visuals/04_country_changes.png)
 
-The notebook goes beyond a surface-level EDA:
+## Notebook dan laporan
 
-1. **Data understanding & cleaning** — checks panel balance (which countries have how
-   many years of data), missing values, and duplicates before touching the numbers.
-2. **2025 snapshot** — distribution, skew, top/bottom 15 countries.
-3. **Correlation + significance** — Pearson r *and* p-value for every factor, not just
-   the coefficient.
-4. **Multiple regression (OLS)** — puts all six factors into one model at once, so the
-   coefficients show each factor's *independent* association with happiness once the
-   others are controlled for (rather than raw correlations, which conflate overlapping
-   factors like GDP and life expectancy).
-5. **Trend analysis** — tests whether the 2011–2025 global trend is statistically
-   significant (linear regression on year, not just eyeballing a line chart).
-6. **Biggest movers** — which countries improved or declined the most between their
-   first and most recent recorded year.
-7. **Volatility** — which countries have the most/least stable happiness scores over
-   time.
+- [Notebook revisi](notebooks/01_world_happiness_analysis.ipynb)
+- [Laporan PDF](reports/Laporan_World_Happiness_Analysis.pdf)
+- [Laporan Word](reports/Laporan_World_Happiness_Analysis.docx)
+- [Sumber data, checksum, dan kamus kolom](data/README.md)
 
-## How to run
+Grafik di `visuals/` diekstrak dari keluaran tersimpan notebook yang diunggah, bukan hasil eksekusi ulang pada sesi pembaruan ini. Tabel CSV dan `metrics.json` dibuat dalam `outputs/` ketika notebook dijalankan.
+
+## Cara menjalankan
+
+Python 3.12 disarankan. Dari akar repository:
 
 ```bash
-python -m venv venv
-source venv/bin/activate   # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-jupyter notebook notebooks/01_exploratory_analysis.ipynb
+python -m venv .venv
+source .venv/bin/activate
+# Windows: .venv\Scripts\activate
+python -m pip install -r requirements.txt
+jupyter notebook notebooks/01_world_happiness_analysis.ipynb
 ```
 
-## Key findings
+Pilih **Run All**. Notebook mendukung direktori kerja akar repository maupun `notebooks/`.
 
-- **Social support and freedom matter more than GDP, independently.** GDP per capita has
-  the highest simple correlation with happiness (r = 0.75), but once all six factors are
-  controlled for together in a multiple regression (R² = 0.83), `freedom` (coef = 1.81)
-  and `social_support` (coef = 1.44) turn out to have the largest *independent* effects —
-  GDP's effect shrinks to 0.49. `generosity` and `corruption_perception` are not
-  statistically significant once the other factors are accounted for.
-- **The global average is rising, slowly.** Life evaluation climbed from 5.39 (2011) to
-  5.65 (2025) — a small but statistically significant upward trend (p < 0.001), not a
-  dramatic shift.
-- **The biggest changes track real-world events.** Serbia, Bulgaria, and Georgia improved
-  the most (+1.6 to +2.1 points) since 2011, while Afghanistan (−2.8), Malawi (−1.3), and
-  Syria (−1.3) declined the most — consistent with conflict and economic crisis in those
-  countries.
-- **Stability tracks institutional strength.** The most volatile countries (Lebanon,
-  Afghanistan) are ones with major crises during the period; the most stable (Sweden, the
-  Netherlands, Belgium) are high-income countries with strong institutions.
+Input yang diperlukan adalah `WHR26_Data_Figure_2.1.xlsx`, bukan CSV versi awal. Letakkan workbook resmi di `data/raw/` atau akar repository. Jika belum tersedia, notebook mencoba mengunduhnya dan memeriksa SHA-256 sebelum membaca data. Koneksi ke `files.worldhappiness.report` diperlukan hanya jika workbook belum tersedia secara lokal.
 
-Full statistical detail — p-values, regression output, and every chart — is in
-`notebooks/01_exploratory_analysis.ipynb`.
+**Status verifikasi pembaruan:** struktur notebook, sintaks Python, keluaran tersimpan tanpa error, dan kesesuaian angka utama laporan telah diperiksa. Eksekusi ulang dari awal belum terverifikasi karena workbook belum disertakan dan proxy lingkungan pemeriksaan menolak unduhan resmi (HTTP 403). Jangan menganggap keluaran tersimpan sebagai bukti eksekusi ulang.
 
-## Limitations
+## Keputusan metodologis
 
-- No `region`/`continent` field in the source data — a regional breakdown would
-  require an external country → region mapping.
-- Analysis is correlational, not causal.
+Label tahun menunjukkan akhir jendela tiga tahun; label 2025 mewakili 2023–2025. Label 2013 tidak tersedia dan celahnya dipertahankan pada grafik. Analisis membandingkan panel tersedia, panel seimbang, dan negara berpasangan. Nilai hilang dipertahankan sebagai NA.
 
-## Author
+Enam kolom `Explained by` merupakan kontribusi hasil model WHR, bukan indikator mentah. Karena kontribusi beserta Dystopia + residual hampir menjumlah ke skor, regresi ulang versi awal tidak digunakan sebagai bukti pengaruh faktor. Perubahan skor dilaporkan secara deskriptif, tanpa klaim kausal atau uji tren sederhana pada jendela survei yang bertumpang tindih.
 
-**Surya Winaldi Yakin**
-Data Analyst portfolio project.
+IK skor individual tidak langsung menyediakan IK selisih antarperiode. Panel seimbang dapat menyeleksi negara dengan survei lebih konsisten; ringkasan ini bukan rerata berbobot populasi dan tidak menjelaskan variasi antarindividu.
 
-- LinkedIn: [linkedin.com/in/surya-winaldi-yakin](https://www.linkedin.com/in/surya-winaldi-yakin-90751a279)
-- Portfolio website: coming soon
+## Struktur
 
+```text
+notebooks/       notebook revisi dengan keluaran tersimpan
+reports/         laporan PDF dan Word
+visuals/         enam grafik dari notebook revisi
+outputs/         tabel dan metrics.json saat dijalankan (diabaikan Git)
+data/            petunjuk data dan CSV input lama untuk audit
+archive/legacy/  notebook, grafik, dan CSV hasil versi awal
+```
+
+Arsip versi awal dipertahankan untuk penelusuran; klaim dan hasilnya telah digantikan revisi ini.
+
+## Sumber
+
+- [World Happiness Report 2026](https://www.worldhappiness.report/ed/2026/)
+- [Data sharing](https://www.worldhappiness.report/data-sharing/)
+- [Workbook resmi](https://files.worldhappiness.report/WHR26_Data_Figure_2.1.xlsx)
+- [Lampiran statistik](https://files.worldhappiness.report/WHR26_Statistical_Appendix.pdf)
