@@ -13,7 +13,7 @@ Analisis deskriptif evaluasi hidup lintas negara: distribusi skor 2023–2025, p
 
 ## Hasil utama
 
-Angka berikut mengikuti keluaran tersimpan notebook unggahan dan laporan revisi:
+Angka berikut telah dicocokkan dengan eksekusi ulang notebook dari workbook yang checksum-nya terverifikasi, serta laporan revisi:
 
 - Potret 2023–2025: 147 negara, rerata 5,650 dan median 5,937.
 - Perubahan 2017–2019 ke 2023–2025: 143 negara berpasangan; rerata +0,102 poin, dengan 90 negara naik dan 53 turun.
@@ -32,7 +32,7 @@ Angka berikut mengikuti keluaran tersimpan notebook unggahan dan laporan revisi:
 - [Laporan Word](reports/Laporan_World_Happiness_Analysis.docx)
 - [Sumber data, checksum, dan kamus kolom](data/README.md)
 
-Grafik di `visuals/` diekstrak dari keluaran tersimpan notebook yang diunggah, bukan hasil eksekusi ulang pada sesi pembaruan ini. Tabel CSV dan `metrics.json` dibuat dalam `outputs/` ketika notebook dijalankan.
+Grafik di `visuals/` berasal dari eksekusi ulang notebook menggunakan workbook terverifikasi. Tabel CSV dan `metrics.json` dibuat dalam `outputs/` ketika notebook dijalankan. Notebook dan laporan unggahan dipertahankan tanpa perubahan isi.
 
 ## Cara menjalankan
 
@@ -48,9 +48,9 @@ jupyter notebook notebooks/01_world_happiness_analysis.ipynb
 
 Pilih **Run All**. Notebook mendukung direktori kerja akar repository maupun `notebooks/`.
 
-Input yang diperlukan adalah `WHR26_Data_Figure_2.1.xlsx`, bukan CSV versi awal. Letakkan workbook resmi di `data/raw/` atau akar repository. Jika belum tersedia, notebook mencoba mengunduhnya dan memeriksa SHA-256 sebelum membaca data. Koneksi ke `files.worldhappiness.report` diperlukan hanya jika workbook belum tersedia secara lokal.
+Workbook `WHR26_Data_Figure_2.1.xlsx` sudah disertakan di `data/raw/`; CSV versi awal dipertahankan untuk audit. Notebook memeriksa SHA-256 workbook sebelum membaca data. Eksekusi analisis tidak memerlukan unduhan data; koneksi ke `files.worldhappiness.report` diperlukan hanya jika workbook lokal dihapus.
 
-**Status verifikasi pembaruan:** struktur notebook, sintaks Python, keluaran tersimpan tanpa error, dan kesesuaian angka utama laporan telah diperiksa. Eksekusi ulang dari awal belum terverifikasi karena workbook belum disertakan dan proxy lingkungan pemeriksaan menolak unduhan resmi (HTTP 403). Jangan menganggap keluaran tersimpan sebagai bukti eksekusi ulang.
+**Status verifikasi (6 November 2026):** seluruh 7 sel kode berhasil dieksekusi dari awal menggunakan workbook lokal dengan SHA-256 yang cocok. Semua assertion internal lulus. Pemeriksaan hasil mengonfirmasi 2.116 baris, 147 negara pada potret terbaru, 143 negara berpasangan (90 naik dan 53 turun), 129 negara panel seimbang, serta 6 grafik. Rerata perubahan +0,102, perubahan Indonesia +0,331, dan galat rekonstruksi maksimum 0,003 poin sesuai laporan. Eksekusi dilakukan dalam salinan sementara agar notebook unggahan tetap utuh.
 
 ## Keputusan metodologis
 

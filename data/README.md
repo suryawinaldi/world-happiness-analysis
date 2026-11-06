@@ -8,7 +8,7 @@ Letakkan file asli di `data/raw/WHR26_Data_Figure_2.1.xlsx` atau di akar proyek.
 - Sheet: `Data for Figure 2.1 (2011–2025)`
 - SHA-256 yang diperiksa notebook: `576e382655cec3ae704a0b41cd2c04465b87cd84b7f131a0c4fa26d41f6d8028`
 - Cakupan yang diharapkan: 2.116 baris, 168 negara/teritori, 14 label tahun; label 2013 tidak tersedia.
-- Workbook belum disertakan dalam pembaruan ini. Unduhan dari lingkungan pemeriksaan ditolak proxy (HTTP 403). Hasil eksekusi ulang belum diverifikasi di lingkungan ini.
+- Workbook asli sudah disertakan dalam `raw/`. SHA-256 cocok dengan notebook. Eksekusi ulang seluruh 7 sel kode beserta assertion internal berhasil pada 6 November 2026 tanpa mengunduh data.
 - CSV dalam `raw/` adalah input versi awal, dipertahankan untuk audit, bukan input notebook revisi.
 - Sumber dan ketentuan penggunaan: https://www.worldhappiness.report/data-sharing/ . Data tetap milik penyedia sumber; repository ini tidak memberikan lisensi ulang atas data tersebut.
 
